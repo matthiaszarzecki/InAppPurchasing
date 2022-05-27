@@ -34,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E810EC528417C4000CA64FC /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6ED763DD28415EF700A09C2F /* IAPTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IAPTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED763E028415EF700A09C2F /* IAPTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTestApp.swift; sourceTree = "<group>"; };
 		6ED763E228415EF700A09C2F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 			children = (
 				6ED763E028415EF700A09C2F /* IAPTestApp.swift */,
 				6ED763E228415EF700A09C2F /* ContentView.swift */,
+				6E810EC528417C4000CA64FC /* Configuration.storekit */,
 				6ED763E428415EFA00A09C2F /* Assets.xcassets */,
 				6ED763E628415EFA00A09C2F /* Preview Content */,
 			);
