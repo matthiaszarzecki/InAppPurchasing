@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6EC0E7D72843F4BB0046FF11 /* ProductHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC0E7D62843F4BB0046FF11 /* ProductHandler.swift */; };
 		6ED763E128415EF700A09C2F /* IAPTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED763E028415EF700A09C2F /* IAPTestApp.swift */; };
 		6ED763E328415EF700A09C2F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED763E228415EF700A09C2F /* ContentView.swift */; };
 		6ED763E528415EFA00A09C2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ED763E428415EFA00A09C2F /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		6E810EC528417C4000CA64FC /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
+		6EC0E7D62843F4BB0046FF11 /* ProductHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductHandler.swift; sourceTree = "<group>"; };
 		6ED763DD28415EF700A09C2F /* IAPTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IAPTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED763E028415EF700A09C2F /* IAPTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPTestApp.swift; sourceTree = "<group>"; };
 		6ED763E228415EF700A09C2F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				6ED763E028415EF700A09C2F /* IAPTestApp.swift */,
 				6ED763E228415EF700A09C2F /* ContentView.swift */,
+				6EC0E7D62843F4BB0046FF11 /* ProductHandler.swift */,
 				6E810EC528417C4000CA64FC /* Configuration.storekit */,
 				6ED763E428415EFA00A09C2F /* Assets.xcassets */,
 				6ED763E628415EFA00A09C2F /* Preview Content */,
@@ -261,6 +264,7 @@
 			files = (
 				6ED763E328415EF700A09C2F /* ContentView.swift in Sources */,
 				6ED763E128415EF700A09C2F /* IAPTestApp.swift in Sources */,
+				6EC0E7D72843F4BB0046FF11 /* ProductHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
