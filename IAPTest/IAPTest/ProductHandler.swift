@@ -9,7 +9,19 @@ import StoreKit
 
 public typealias ProductsRequestCompletionHandler = (_ success: Bool, _ products: [SKProduct]?) -> ()
 
-class ProductHandler: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
+class ProductHandler: NSObject, SKPaymentTransactionObserver {
+  /// The function that returns the gotten products when fetching.
+  /// Gets set when calling fetchProducts, and then actually called
+  /// when products are returned.
+  private var completionHandler: ProductsRequestCompletionHandler?
+
+  enum Product: String, CaseIterable {
+    case removeAds = "com.myapp.removeAds"
+    case unlockEverything = "com.myapp.unlockEverything"
+    case getGems = "com.myapp.getGems"
+  }
+
+
   override init() {
     super.init()
 
@@ -87,16 +99,7 @@ class ProductHandler: NSObject, SKProductsRequestDelegate, SKPaymentTransactionO
     )
   }
 
-  /// The function that returns the gotten products when fetching.
-  /// Gets set when calling fetchProducts, and then actually called
-  /// when products are returned.
-  private var completionHandler: ProductsRequestCompletionHandler?
 
-  enum Product: String, CaseIterable {
-    case removeAds = "com.myapp.removeAds"
-    case unlockEverything = "com.myapp.unlockEverything"
-    case getGems = "com.myapp.getGems"
-  }
 
   public func fetchProducts(
     completion: @escaping ProductsRequestCompletionHandler
@@ -112,7 +115,9 @@ class ProductHandler: NSObject, SKProductsRequestDelegate, SKPaymentTransactionO
     request.delegate = self
     request.start()
   }
+}
 
+extension ProductHandler: SKProductsRequestDelegate {
   /// Gets called on succesful request
   func productsRequest(
     _ request: SKProductsRequest,
