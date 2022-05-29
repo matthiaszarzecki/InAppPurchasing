@@ -7,6 +7,7 @@
 
 import StoreKit
 
+/// Alias for completionHandler that is given to ProductHandler
 public typealias ProductsRequestCompletionHandler = (_ success: Bool, _ products: [SKProduct]?) -> ()
 
 enum Product: String, CaseIterable {
@@ -24,11 +25,17 @@ class ProductHandler: NSObject {
   override init() {
     super.init()
 
+    setupObserver()
+  }
+
+  private func setupObserver() {
     // Add observer, so that observing functions will be called
     SKPaymentQueue.default().add(self)
   }
 
-  /// Fetches products from store or configuration
+  // MARK: - Public Functions
+
+  /// Fetches products from store or configuration file
   public func fetchProducts(
     completion: @escaping ProductsRequestCompletionHandler
   ) {
@@ -43,11 +50,25 @@ class ProductHandler: NSObject {
     request.delegate = self
     request.start()
   }
+
+  /// Starts the purchasing process for a product
+  public func buyProduct(_ product: SKProduct) {
+    print("Buying \(product.productIdentifier)...")
+    let payment = SKPayment(product: product)
+    SKPaymentQueue.default().add(payment)
+  }
+
+  /// Restores previous purchases
+  public func restorePurchases() {
+    SKPaymentQueue.default().restoreCompletedTransactions()
+  }
 }
+
+// MARK: - SKProductsRequestDelegate
 
 extension ProductHandler: SKProductsRequestDelegate {
   /// Gets called on succesful product request
-  func productsRequest(
+  internal func productsRequest(
     _ request: SKProductsRequest,
     didReceive response: SKProductsResponse
   ) {
@@ -57,16 +78,21 @@ extension ProductHandler: SKProductsRequestDelegate {
     }
   }
 
-  /// Starts the purchasing process for a product
-  func buyProduct(_ product: SKProduct) {
-    print("Buying \(product.productIdentifier)...")
-    let payment = SKPayment(product: product)
-    SKPaymentQueue.default().add(payment)
+  /// Gets called when product loading from store fails
+  internal func request(
+    _ request: SKRequest,
+    didFailWithError error: Error
+  ) {
+    print("Failed to load list of products. Error: \(error.localizedDescription)")
+    completionHandler?(false, nil)
   }
 }
 
+// MARK: - SKPaymentTransactionObserver
+
 extension ProductHandler: SKPaymentTransactionObserver {
-  func paymentQueue(
+  /// Gets called when a payment transaction is happening
+  internal func paymentQueue(
     _ queue: SKPaymentQueue,
     updatedTransactions transactions: [SKPaymentTransaction]
   ) {
