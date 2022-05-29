@@ -9,26 +9,63 @@ import StoreKit
 
 public typealias ProductsRequestCompletionHandler = (_ success: Bool, _ products: [SKProduct]?) -> ()
 
-class ProductHandler: NSObject, SKPaymentTransactionObserver {
+enum Product: String, CaseIterable {
+  case removeAds = "com.myapp.removeAds"
+  case unlockEverything = "com.myapp.unlockEverything"
+  case getGems = "com.myapp.getGems"
+}
+
+class ProductHandler: NSObject {
   /// The function that returns the gotten products when fetching.
   /// Gets set when calling fetchProducts, and then actually called
   /// when products are returned.
   private var completionHandler: ProductsRequestCompletionHandler?
 
-  enum Product: String, CaseIterable {
-    case removeAds = "com.myapp.removeAds"
-    case unlockEverything = "com.myapp.unlockEverything"
-    case getGems = "com.myapp.getGems"
-  }
-
-
   override init() {
     super.init()
 
-    // Add observer
+    // Add observer, so that observing functions will be called
     SKPaymentQueue.default().add(self)
   }
 
+  /// Fetches products from store or configuration
+  public func fetchProducts(
+    completion: @escaping ProductsRequestCompletionHandler
+  ) {
+    let request = SKProductsRequest(
+      productIdentifiers: Set(
+        Product.allCases.compactMap{ $0.rawValue }
+      )
+    )
+
+    completionHandler = completion
+
+    request.delegate = self
+    request.start()
+  }
+}
+
+extension ProductHandler: SKProductsRequestDelegate {
+  /// Gets called on succesful product request
+  func productsRequest(
+    _ request: SKProductsRequest,
+    didReceive response: SKProductsResponse
+  ) {
+    DispatchQueue.main.async {
+      print("Count: \(response.products.count)")
+      self.completionHandler?(true, response.products)
+    }
+  }
+
+  /// Starts the purchasing process for a product
+  func buyProduct(_ product: SKProduct) {
+    print("Buying \(product.productIdentifier)...")
+    let payment = SKPayment(product: product)
+    SKPaymentQueue.default().add(payment)
+  }
+}
+
+extension ProductHandler: SKPaymentTransactionObserver {
   func paymentQueue(
     _ queue: SKPaymentQueue,
     updatedTransactions transactions: [SKPaymentTransaction]
@@ -97,42 +134,5 @@ class ProductHandler: NSObject, SKPaymentTransactionObserver {
       name: NSNotification.Name(rawValue: "IAPHelperPurchaseNotification"),
       object: identifier
     )
-  }
-
-
-
-  public func fetchProducts(
-    completion: @escaping ProductsRequestCompletionHandler
-  ) {
-    let request = SKProductsRequest(
-      productIdentifiers: Set(
-        Product.allCases.compactMap{ $0.rawValue }
-      )
-    )
-
-    completionHandler = completion
-
-    request.delegate = self
-    request.start()
-  }
-}
-
-extension ProductHandler: SKProductsRequestDelegate {
-  /// Gets called on succesful request
-  func productsRequest(
-    _ request: SKProductsRequest,
-    didReceive response: SKProductsResponse
-  ) {
-    DispatchQueue.main.async {
-      print("Count: \(response.products.count)")
-      self.completionHandler?(true, response.products)
-    }
-  }
-
-  /// Starts the purchasing process for a product
-  func buyProduct(_ product: SKProduct) {
-    print("Buying \(product.productIdentifier)...")
-    let payment = SKPayment(product: product)
-    SKPaymentQueue.default().add(payment)
   }
 }
