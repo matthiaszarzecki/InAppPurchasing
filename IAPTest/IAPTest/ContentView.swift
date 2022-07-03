@@ -17,14 +17,7 @@ struct ContentView: View {
     VStack {
       Button(
         action: {
-          print("Requested Products")
-          productHandler.fetchProducts(
-            completion: { success, products in
-              if success, let unwrappedProducts = products {
-                self.models = unwrappedProducts
-              }
-            }
-          )
+
         },
         label: {
           Text("Get Products")
@@ -43,6 +36,17 @@ struct ContentView: View {
           }
         )
       }
+    }
+    .onAppear {
+        print("Requested Products")
+        productHandler.fetchProducts(
+          completion: { success, products in
+            if success, let unwrappedProducts = products {
+              self.models = unwrappedProducts
+                print(unwrappedProducts.map(\.localizedTitle))
+            }
+          }
+        )
     }
 
   }
